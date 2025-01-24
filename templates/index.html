@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Test Helper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+</head>
+<body>
+    <h1>AI Test Helper</h1>
+    <div id="answer-display">Waiting for updates...</div>
+
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log("Connected to server");
+        });
+
+        socket.on('update_answer', function(data) {
+            const display = document.getElementById('answer-display');
+            display.innerText = data.answer || 'No answer received!';
+        });
+
+        socket.on('disconnect', function() {
+            console.log("Disconnected from server");
+            document.getElementById('answer-display').innerText = "Connection lost. Please reload.";
+        });
+
+        socket.on('connect_error', function(err) {
+            console.error("Connection error:", err);
+        });
+    </script>
+</body>
+</html>

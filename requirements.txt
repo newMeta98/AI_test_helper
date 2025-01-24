@@ -1,0 +1,8 @@
+flask
+flask-socketio
+python-dotenv
+openai
+pyautogui
+keyboard
+requests
+python-socketio
